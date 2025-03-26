@@ -264,7 +264,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n#LOC_FILE=\"./CoinPay/Resources/Localizable.strings\"\n#API_KEY=\"sQ-JAEmqJ6FmaZeNtmwrK-VJTEaeRTDL\"\nset -e\n\necho cd.\n\nKEY=\"sQ-JAEmqJ6FmaZeNtmwrK-VJTEaeRTDL\"\nURL=\"https://localise.biz/api/export/locale\"\n\nfunction update_L {\n    if ping -q -c 1 -W 1 google.com >/dev/null; then\n    echo \"FETCHING THIS LOCAL[$LOCAL]\\nFOR TAG:[$TAG]\"\n    curl \"$URL/$REMOTE.strings?key=$KEY&index=id&filter=$TAG\" | iconv -f utf-16 -t utf-8 > $LOCAL\n    sed -i '' '/* Exported at:/d' $LOCAL\n    else\n    echo \"The network is down\"\n    fi\n}\n\n##################################################################################\n\nTAG=\"ios\"\n\n# EN\nREMOTE=\"en\"\nLOCAL=\"./CoinPay/Resources/en.lproj/Localizable.strings\"\nupdate_L\n\n# UK\nREMOTE=\"en\"\nLOCAL=\"./CoinPay/Resources/uk.lproj/Localizable.strings\"\nupdate_L\n\n\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nAPI_KEY=\"sQ-JAEmqJ6FmaZeNtmwrK-VJTEaeRTDL\"\nLOC_FILE=\"./CoinPay/Resources/en.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/en.strings?key=$API_KEY\"\nLOC_FILE=\"./CoinPay/Resources/uk.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/uk.strings?key=$API_KEY\"\n\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
