@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B0468F202D953A250072B5D6 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = B0468F1F2D953A250072B5D6 /* ComposableArchitecture */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		B0468DC12D93FE940072B5D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0468F202D953A250072B5D6 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -91,6 +96,7 @@
 				B0468DB22D93FE930072B5D6 /* CoinPay */,
 				B0468DC32D93FE940072B5D6 /* CoinPayTests */,
 				B0468DCD2D93FE940072B5D6 /* CoinPayUITests */,
+				B0468EC62D95188A0072B5D6 /* Frameworks */,
 				B0468DB12D93FE930072B5D6 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -105,6 +111,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		B0468EC62D95188A0072B5D6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -112,10 +125,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B0468DD42D93FE940072B5D6 /* Build configuration list for PBXNativeTarget "CoinPay" */;
 			buildPhases = (
+				B0468E392D941BDE0072B5D6 /* Localisation */,
+				B0468E8E2D944C6E0072B5D6 /* SwiftGen */,
 				B0468DAC2D93FE930072B5D6 /* Sources */,
-				B0468DAD2D93FE930072B5D6 /* Frameworks */,
 				B0468DAE2D93FE930072B5D6 /* Resources */,
-				B0468E392D941BDE0072B5D6 /* Run Script */,
+				B0468DAD2D93FE930072B5D6 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -126,6 +140,7 @@
 			);
 			name = CoinPay;
 			packageProductDependencies = (
+				B0468F1F2D953A250072B5D6 /* ComposableArchitecture */,
 			);
 			productName = CoinPay;
 			productReference = B0468DB02D93FE930072B5D6 /* CoinPay.app */;
@@ -210,6 +225,7 @@
 			mainGroup = B0468DA72D93FE930072B5D6;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				B0468F1E2D9535520072B5D6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B0468DB12D93FE930072B5D6 /* Products */;
@@ -248,7 +264,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		B0468E392D941BDE0072B5D6 /* Run Script */ = {
+		B0468E392D941BDE0072B5D6 /* Localisation */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -257,7 +273,7 @@
 			);
 			inputPaths = (
 			);
-			name = "Run Script";
+			name = Localisation;
 			outputFileListPaths = (
 			);
 			outputPaths = (
@@ -265,6 +281,24 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nAPI_KEY=\"sQ-JAEmqJ6FmaZeNtmwrK-VJTEaeRTDL\"\nLOC_FILE=\"./CoinPay/Resources/en.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/en.strings?key=$API_KEY\"\nLOC_FILE=\"./CoinPay/Resources/uk.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/uk.strings?key=$API_KEY\"\n\n";
+		};
+		B0468E8E2D944C6E0072B5D6 /* SwiftGen */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftGen;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftgen >/dev/null; then\n  swiftgen\nelse\n  echo \"warning: SwiftGen not installed. Install it via 'brew install swiftgen'\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -345,6 +379,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -368,6 +403,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 			};
 			name = Debug;
 		};
@@ -410,6 +446,7 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -425,6 +462,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SYSTEM_FRAMEWORK_SEARCH_PATHS = "$(SRCROOT)";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -440,12 +478,13 @@
 				DEVELOPMENT_TEAM = HU4P8J2639;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(SRCROOT)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CoinPay/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -470,12 +509,13 @@
 				DEVELOPMENT_TEAM = HU4P8J2639;
 				ENABLE_PREVIEWS = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
+				"FRAMEWORK_SEARCH_PATHS[arch=*]" = "$(SRCROOT)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CoinPay/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 16;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -601,6 +641,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		B0468F1E2D9535520072B5D6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.18.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		B0468F1F2D953A250072B5D6 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0468F1E2D9535520072B5D6 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = B0468DA82D93FE930072B5D6 /* Project object */;
 }

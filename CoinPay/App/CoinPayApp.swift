@@ -6,12 +6,17 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
 struct CoinPayApp: App {
+    var appStore = Store(initialState: .init(), reducer: { AppReducer() })
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            switch appStore.appState {
+            case .onboarding:
+                ContentView()
+            }
         }
     }
 }
