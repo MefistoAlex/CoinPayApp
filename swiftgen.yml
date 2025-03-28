@@ -1,0 +1,7 @@
+
+ strings:
+   inputs:
+     - CoinPay/Resources/en.lproj
+   outputs:
+     - templateName: structured-swift5
+       output: CoinPay/Resources/Strings+Generated.swift

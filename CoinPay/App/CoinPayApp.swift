@@ -17,8 +17,7 @@ struct CoinPayApp: App {
             case .onboarding:
                 OnboardingView(store: appStore.scope(state:\.onboardingState, action: \.onboarding))
             case .registration:
-                EmptyView()
-                    .background(Color.red)
+                AuthorisationView(store: appStore.scope(state:\.authorisationState, action: \.authorisation))
             }
         }
     }

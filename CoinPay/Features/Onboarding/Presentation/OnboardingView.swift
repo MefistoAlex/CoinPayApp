@@ -21,6 +21,7 @@ struct OnboardingView: View {
                         }
                     }
                 }
+                .frame(height: 350)
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
                 .padding(.top, 48)
                 
@@ -34,13 +35,15 @@ struct OnboardingView: View {
                             }
                     }
                 }
+                .padding(.bottom, 8)
                 
                 Text(store.advantages[store.selectedImageIndex].title)
                     .multilineTextAlignment(.center)
-                    .font(.title)
+                    .font(.system(size: 38, weight: .semibold, design: .default))
                     .fontWeight(.bold)
                     .padding()
-                    .padding(.bottom, 60)
+               
+                Spacer()
                 
                 Button(action: { store.send(.nextButtonTapped) }) {
                     Text(L10n.Button.next)
@@ -48,7 +51,7 @@ struct OnboardingView: View {
                         .fontWeight(.regular)
                         .frame(width: geometry.size.width - 32,  height: 56)
                 }
-                .buttonStyle(ScaledButtonStyle())
+                .buttonStyle(ScaledButtonStylePrimary())
                 .padding(16)
             }
         }
