@@ -1,6 +1,16 @@
 {
   "images" : [
     {
+      "filename" : "Trust (1).pdf",
+      "idiom" : "universal"
+    },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "filename" : "Trust.pdf",
       "idiom" : "universal"
     }

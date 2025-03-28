@@ -6,57 +6,51 @@
 //
 
 import SwiftUI
-
+import ComposableArchitecture
 
 struct OnboardingView: View {
-    
+    @Bindable var store: StoreOf<OnboardingReducer>
     var body: some View {
-        
-        AutoScroller(advantages: Advantages.allCases)
-    }
-}
-
-struct AutoScroller: View {
-    var advantages: [Advantages]
-    
-    @State private var selectedImageIndex: Int = 0
-
-    var body: some View {
-        VStack {
- 
-            TabView(selection: $selectedImageIndex) {
-                 ForEach(0..<advantages.count, id: \.self) { index in
-                    ZStack(alignment: .topLeading) {
-                        Image(advantages[index].image)
-                            .tag(index)
-                            .frame(height: 260)
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                TabView(selection: $store.selectedImageIndex) {
+                    ForEach(0..<store.advantages.count, id: \.self) { index in
+                        ZStack(alignment: .topLeading) {
+                            Image(store.advantages[index].image)
+                                .tag(index)
+                        }
                     }
                 }
-            }
-            .frame(height: 350)
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .padding(.bottom, 80)
-            .padding(.top, 48)
-
-           
-            HStack {
-                ForEach(0..<advantages.count, id: \.self) { index in
-                    Capsule()
-                        .fill(selectedImageIndex == index ? Color.blue : Color.white)
-                        .frame(width: selectedImageIndex == index ? 16 : 37, height: 8)
-                        .onTapGesture {
-                            selectedImageIndex = index
-                        }
+                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                .padding(.top, 48)
+                
+                HStack {
+                    ForEach(0..<store.advantages.count, id: \.self) { index in
+                        Capsule()
+                            .fill($store.selectedImageIndex.wrappedValue == index ? Color.blue : .unactive)
+                            .frame(width: $store.selectedImageIndex.wrappedValue == index ? 16 : 37, height: 8)
+                            .onTapGesture {
+                                store.selectedImageIndex = index
+                            }
+                    }
                 }
+                
+                Text(store.advantages[store.selectedImageIndex].title)
+                    .multilineTextAlignment(.center)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .padding()
+                    .padding(.bottom, 60)
+                
+                Button(action: { store.send(.nextButtonTapped) }) {
+                    Text(L10n.Button.next)
+                        .font(.title3)
+                        .fontWeight(.regular)
+                        .frame(width: geometry.size.width - 32,  height: 56)
+                }
+                .buttonStyle(ScaledButtonStyle())
+                .padding(16)
             }
-            
-            Text(advantages[selectedImageIndex].title)
-                .multilineTextAlignment(.center)
-                .font(.title)
-                .fontWeight(.bold)
-                .padding()
-            
-            Spacer()
         }
     }
 }

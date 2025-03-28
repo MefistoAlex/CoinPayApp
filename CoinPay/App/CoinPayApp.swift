@@ -15,7 +15,10 @@ struct CoinPayApp: App {
         WindowGroup {
             switch appStore.appState {
             case .onboarding:
-                ContentView()
+                OnboardingView(store: appStore.scope(state:\.onboardingState, action: \.onboarding))
+            case .registration:
+                EmptyView()
+                    .background(Color.red)
             }
         }
     }
