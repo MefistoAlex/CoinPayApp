@@ -11,6 +11,10 @@ import Foundation
 // swiftlint:disable nesting type_body_length type_name vertical_whitespace_opening_braces
 internal enum L10n {
   internal enum Authorisation {
+    internal enum CreateAccount {
+      /// Chose your country
+      internal static let choseYourCountry = L10n.tr("Localizable", "authorisation.create_account.chose_your_country", fallback: "Chose your country")
+    }
     internal enum Signup {
       /// and
       internal static let and = L10n.tr("Localizable", "authorisation.signup.and", fallback: "and")

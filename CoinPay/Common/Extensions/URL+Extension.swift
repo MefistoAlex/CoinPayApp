@@ -13,10 +13,3 @@ extension URL: @retroactive Identifiable {
     }
 }
 
-extension URL: @retroactive Equatable {
-    public static func == (lhs: URL, rhs: URL) -> Bool {
-        lhs.absoluteString == rhs.absoluteString
-    }
-}
-
-

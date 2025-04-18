@@ -23,6 +23,7 @@ struct CreateAccountReducer: Equatable {
         case binding(BindingAction<State>)
         case signUpButtonTapped
         case passwordVisibilityButtonTapped
+        case backButtonTapped
     }
     
     var body: some ReducerOf<Self> {
@@ -34,6 +35,8 @@ struct CreateAccountReducer: Equatable {
             case .signUpButtonTapped:
                 return .none
             case .passwordVisibilityButtonTapped:
+                return .none
+            case .backButtonTapped:
                 return .none
             }
         }

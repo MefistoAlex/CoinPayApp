@@ -89,6 +89,8 @@ struct AuthorisationView: View {
                         CloseButton(action: { store.presentedURL = nil })
                     }
             }
+            .navigationBarTitleDisplayMode(.inline)
+            .navigationBarBackButtonHidden()
         } destination: { store in
             switch store.case {
             case .createAccount(let store):
