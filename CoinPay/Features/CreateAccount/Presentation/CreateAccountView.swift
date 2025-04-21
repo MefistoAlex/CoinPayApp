@@ -31,6 +31,7 @@ struct CreateAccountView: View {
                 .multilineTextAlignment(.leading)
                 .font(.subheadline)
                 .frame(maxWidth: .infinity, alignment: .leading)
+                .fixedSize(horizontal: false, vertical: true)
                 .padding(.bottom, 22)
             
             InputFieldsView(store: store)
@@ -80,33 +81,51 @@ struct InputFieldsView: View {
             Text(L10n.Authorisation.CreateAccount.phone)
                 .padding(.bottom, 8)
                 .frame(maxWidth: .infinity, alignment: .leading)
-            
-            HStack() {
-                Button {
-                   
-                } label: {
-                    Text (store.phoneCode)
-                        .padding(12)
-                        .cornerRadius(8)
-                        .foregroundStyle(Color.white)
-                }
-                .background{
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.border, lineWidth: 1)
+            VStack {
+                HStack(alignment: .top) {
+                    Button {
+                        
+                    } label: {
+                        Text (store.phoneCode)
+                            .padding(12)
+                            .cornerRadius(8)
+                            .foregroundStyle(Color.white)
+                    }
+                    .background{
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.border, lineWidth: 1)
+                    }
+                    
+                    TextField(L10n.Authorisation.CreateAccount.mobileNumber, text: $store.phoneNumber, onEditingChanged: { endEdit in
+                        if !endEdit {
+                            store.send(.phoneNumberDidEndEditing)
+                        }
+                    })
+                    .keyboardType(.numberPad)
+                    .padding(12)
+                    .background{
+                        RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.border, lineWidth: 1)
+                    }
+                    .toolbar {
+                        ToolbarItemGroup(placement: .keyboard) {
+                            Spacer()
+                            
+                            Button(L10n.Button.done) {
+                                UIApplication.shared.endEditing()
+                            }
+                        }
+                    }
                 }
                 
-                TextField(text: $store.phoneNumber) {
-                    Text(L10n.Authorisation.CreateAccount.mobileNumber)
-                        .foregroundStyle(Color.border)
-                        .focused($focusedField, equals: .phoneNumber)
-                }
-                .keyboardType(.phonePad)
-                .padding(12)
-                .background{
-                    RoundedRectangle(cornerRadius: 8)
-                        .stroke(Color.border, lineWidth: 1)
+                if !store.isPhoneValid {
+                    Text(L10n.Authorisation.CreateAccount.wrongPhoneNumber)
+                        .foregroundStyle(Color.red)
+                        .padding(.leading, 8)
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
+            .animation(.easeInOut, value: store.isPhoneValid)
             .padding(.bottom, 14)
             
             Text(L10n.Authorisation.CreateAccount.password)
@@ -131,7 +150,7 @@ struct InputFieldsView: View {
                             .focused($focusedField, equals: .password)
                     }
                 }
-    
+                
                 Button {
                     store.send(.passwordVisibilityButtonTapped)
                 } label: {
@@ -139,7 +158,7 @@ struct InputFieldsView: View {
                         .accentColor(.border)
                         .padding(.horizontal, 8)
                 }
-
+                
             }
             .padding(12)
             .background{

@@ -26,6 +26,8 @@ internal enum L10n {
       internal static let subtitle = L10n.tr("Localizable", "authorisation.create_account.subtitle", fallback: "Enter your mobile number to verify your account")
       /// Create an Account
       internal static let title = L10n.tr("Localizable", "authorisation.create_account.title", fallback: "Create an Account")
+      /// Wrong phone number
+      internal static let wrongPhoneNumber = L10n.tr("Localizable", "authorisation.create_account.wrong_phone_number", fallback: "Wrong phone number")
     }
     internal enum Signup {
       /// and
@@ -44,6 +46,8 @@ internal enum L10n {
     }
   }
   internal enum Button {
+    /// Done
+    internal static let done = L10n.tr("Localizable", "button.done", fallback: "Done")
     /// Log in
     internal static let logIn = L10n.tr("Localizable", "button.log_in", fallback: "Log in")
     /// Next
