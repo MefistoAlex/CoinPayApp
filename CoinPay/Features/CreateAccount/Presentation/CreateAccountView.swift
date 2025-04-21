@@ -10,20 +10,43 @@ import ComposableArchitecture
 
 struct CreateAccountView: View {
     @Bindable private var store: StoreOf<CreateAccountReducer>
-    
+    @FocusState private var focusedField: CreateAccountReducer.State.Field?
     init(store: StoreOf<CreateAccountReducer>) {
         self.store = store
     }
+    
     var body: some View {
-        VStack {
-            ProgressView(step: 1, totalSteps: 3)
+        VStack(alignment: .center) {
+            ProgressBarView(step: CreateAccountReducer.Constants.currentStep,
+                            totalSteps: CreateAccountReducer.Constants.stepsCount)
             
-            Button(action: { self.store.send(.signUpButtonTapped) }) {
-                Text("Verify Phone")
-                    .foregroundStyle(.white)
-            }
-            Text("Create Account View")
+            Text(L10n.Authorisation.CreateAccount.title)
+                .multilineTextAlignment(.leading)
+                .font(.title)
+                .fontWeight(.bold)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 8)
+            
+            Text(L10n.Authorisation.CreateAccount.subtitle)
+                .multilineTextAlignment(.leading)
+                .font(.subheadline)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding(.bottom, 22)
+            
+            InputFieldsView(store: store)
+            
             Spacer()
+            
+            Button(action: { store.send(.signUpButtonTapped) }) {
+                Text(L10n.Button.signUp)
+                    .font(.title3)
+                    .fontWeight(.regular)
+                    .frame(width: UIScreen.main.bounds.width - 32,  height: 56)
+            }
+            .buttonStyle(ScaledButtonStylePrimary())
+            .disabled(!store.isSignUpButtonEnabled)
+            .padding(.horizontal, 16)
+            
         }
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -34,27 +57,96 @@ struct CreateAccountView: View {
                 }
             }
         }
-        
+        .padding(.horizontal, 16)
+        .padding(.bottom, 22)
+        .onTapGesture {
+            UIApplication.shared.endEditing()
+        }
     }
 }
 
-struct ProgressView: View {
-    var step: Int
-    var totalSteps: Int
-    var passedStepsWidth: CGFloat {
-        return CGFloat((UIScreen.main.bounds.width / CGFloat(totalSteps)) * CGFloat(step))
+// MARK: - InputFieldsView
+
+struct InputFieldsView: View {
+    @Bindable private var store: StoreOf<CreateAccountReducer>
+    @FocusState private var focusedField: CreateAccountReducer.State.Field?
+    
+    init(store: StoreOf<CreateAccountReducer>) {
+        self.store = store
     }
-    var leftStepsWidth: CGFloat {
-        return CGFloat(UIScreen.main.bounds.width - passedStepsWidth)
-    }
+    
     var body: some View {
-        HStack(spacing: 0) {
-            Rectangle()
-                .frame(width: passedStepsWidth, height: 4)
-                .foregroundStyle(.blue)
-            Rectangle()
-                .frame(width: leftStepsWidth, height: 4)
-                .foregroundStyle(Color.neutralGray)
+        VStack() {
+            Text(L10n.Authorisation.CreateAccount.phone)
+                .padding(.bottom, 8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            HStack() {
+                Button {
+                   
+                } label: {
+                    Text (store.phoneCode)
+                        .padding(12)
+                        .cornerRadius(8)
+                        .foregroundStyle(Color.white)
+                }
+                .background{
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.border, lineWidth: 1)
+                }
+                
+                TextField(text: $store.phoneNumber) {
+                    Text(L10n.Authorisation.CreateAccount.mobileNumber)
+                        .foregroundStyle(Color.border)
+                        .focused($focusedField, equals: .phoneNumber)
+                }
+                .keyboardType(.phonePad)
+                .padding(12)
+                .background{
+                    RoundedRectangle(cornerRadius: 8)
+                        .stroke(Color.border, lineWidth: 1)
+                }
+            }
+            .padding(.bottom, 14)
+            
+            Text(L10n.Authorisation.CreateAccount.password)
+                .padding(.bottom, 8)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            HStack {
+                Image(store.isPasswordShowing ? .lockOpen: .lock)
+                    .accentColor(.border)
+                    .padding(.horizontal, 8)
+                
+                if store.isPasswordShowing {
+                    TextField(text: $store.password) {
+                        Text(L10n.Authorisation.CreateAccount.enterPassword)
+                            .foregroundStyle(Color.border)
+                            .focused($focusedField, equals: .password)
+                    }
+                } else {
+                    SecureField(text: $store.password) {
+                        Text(L10n.Authorisation.CreateAccount.enterPassword)
+                            .foregroundStyle(Color.border)
+                            .focused($focusedField, equals: .password)
+                    }
+                }
+    
+                Button {
+                    store.send(.passwordVisibilityButtonTapped)
+                } label: {
+                    Image(store.isPasswordShowing ? .eye : .eyeSlash)
+                        .accentColor(.border)
+                        .padding(.horizontal, 8)
+                }
+
+            }
+            .padding(12)
+            .background{
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(Color.border, lineWidth: 1)
+            }
+            
         }
     }
 }

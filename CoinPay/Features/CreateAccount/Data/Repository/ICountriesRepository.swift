@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol ICountriesRepository {
+public protocol ICountriesRepository {
     func getAllCountries() -> [Country]
 }
 

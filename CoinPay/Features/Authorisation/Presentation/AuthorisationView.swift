@@ -99,9 +99,5 @@ struct AuthorisationView: View {
                 ConfirmPhoneView(store: store)
             }
         }
-
-       
     }
 }
-
-

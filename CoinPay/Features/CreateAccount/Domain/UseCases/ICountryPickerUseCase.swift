@@ -16,7 +16,7 @@ private enum Constants {
 }
 
 public protocol ICountriesPickerUseCase {
-    func searhSections(search: String) -> [CountrySection]
+    func searchSections(search: String) -> [CountrySection]
     func getCountryBy(code: String) -> Country?
 }
 
@@ -30,7 +30,7 @@ public final class CountriesPickerUseCase: ICountriesPickerUseCase {
         self.countriesRepository = countriesRepository
     }
     
-    public func searhSections(search: String = "") -> [CountrySection] {
+    public func searchSections(search: String = "") -> [CountrySection] {
         var firstSection = [CountrySection]()
         var countries = [Country]()
         if search.count < Constants.countSearch {

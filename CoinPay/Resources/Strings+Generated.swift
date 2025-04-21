@@ -14,6 +14,18 @@ internal enum L10n {
     internal enum CreateAccount {
       /// Chose your country
       internal static let choseYourCountry = L10n.tr("Localizable", "authorisation.create_account.chose_your_country", fallback: "Chose your country")
+      /// Enter password
+      internal static let enterPassword = L10n.tr("Localizable", "authorisation.create_account.enter_password", fallback: "Enter password")
+      /// Mobile number
+      internal static let mobileNumber = L10n.tr("Localizable", "authorisation.create_account.mobile_number", fallback: "Mobile number")
+      /// Password
+      internal static let password = L10n.tr("Localizable", "authorisation.create_account.password", fallback: "Password")
+      /// Phone
+      internal static let phone = L10n.tr("Localizable", "authorisation.create_account.phone", fallback: "Phone")
+      /// Enter your mobile number to verify your account
+      internal static let subtitle = L10n.tr("Localizable", "authorisation.create_account.subtitle", fallback: "Enter your mobile number to verify your account")
+      /// Create an Account
+      internal static let title = L10n.tr("Localizable", "authorisation.create_account.title", fallback: "Create an Account")
     }
     internal enum Signup {
       /// and
