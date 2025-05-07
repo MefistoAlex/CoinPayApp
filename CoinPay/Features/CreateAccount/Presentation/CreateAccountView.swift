@@ -63,6 +63,9 @@ struct CreateAccountView: View {
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
+        .onAppear(perform: {
+            store.send(.getCurrentCountryPhoneCode)
+        })
     }
 }
 
@@ -84,12 +87,12 @@ struct InputFieldsView: View {
             VStack {
                 HStack(alignment: .top) {
                     Button {
-                        
+                        store.send(.phoneCodeButtonTaped)
                     } label: {
                         Text (store.phoneCode)
                             .padding(12)
                             .cornerRadius(8)
-                            .foregroundStyle(Color.white)
+                            .foregroundStyle(.primaryText)
                     }
                     .background{
                         RoundedRectangle(cornerRadius: 8)
@@ -166,6 +169,10 @@ struct InputFieldsView: View {
                     .stroke(Color.border, lineWidth: 1)
             }
             
+        }
+        .padding(4)
+        .sheet(item:  $store.scope(state: \.phoneCodeSelectionState, action: \.phoneCodeSelectionAction) ) { store in
+            PhoneCodeSelectionView(store: store)
         }
     }
 }

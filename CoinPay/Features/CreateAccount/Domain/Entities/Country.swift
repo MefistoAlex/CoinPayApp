@@ -8,6 +8,7 @@
 import Foundation
 
 public struct Country: Hashable {
+    static let shared = Country(name: "Ukraine", phoneCode: "+380", code: "UA", citisenship: "Ukranian")
     public let name: String
     public let phoneCode: String
     public let code: String

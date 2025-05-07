@@ -28,6 +28,8 @@ internal enum L10n {
       internal static let title = L10n.tr("Localizable", "authorisation.create_account.title", fallback: "Create an Account")
       /// Wrong phone number
       internal static let wrongPhoneNumber = L10n.tr("Localizable", "authorisation.create_account.wrong_phone_number", fallback: "Wrong phone number")
+      /// Your location
+      internal static let yourLocation = L10n.tr("Localizable", "authorisation.create_account.your_location", fallback: "Your location")
     }
     internal enum Signup {
       /// and

@@ -10,6 +10,11 @@ import ComposableArchitecture
 
 @main
 struct CoinPayApp: App {
+    
+    init() {
+        LocationManager.shared.requestLocation()
+    }
+    
     var appStore = Store(initialState: .init(), reducer: { AppReducer() })
     var body: some Scene {
         WindowGroup {
