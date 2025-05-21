@@ -9,6 +9,7 @@ import SwiftUI
 import ComposableArchitecture
 
 struct CreateAccountView: View {
+    @Environment(\.viewController) private var viewControllerHolder: UIViewController?
     @Bindable private var store: StoreOf<CreateAccountReducer>
     @FocusState private var focusedField: CreateAccountReducer.State.Field?
     init(store: StoreOf<CreateAccountReducer>) {
@@ -20,34 +21,38 @@ struct CreateAccountView: View {
             ProgressBarView(step: CreateAccountReducer.Constants.currentStep,
                             totalSteps: CreateAccountReducer.Constants.stepsCount)
             
-            Text(L10n.Authorisation.CreateAccount.title)
-                .multilineTextAlignment(.leading)
-                .font(.title)
-                .fontWeight(.bold)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.bottom, 8)
-            
-            Text(L10n.Authorisation.CreateAccount.subtitle)
-                .multilineTextAlignment(.leading)
-                .font(.subheadline)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .fixedSize(horizontal: false, vertical: true)
-                .padding(.bottom, 22)
-            
-            InputFieldsView(store: store)
-            
-            Spacer()
-            
-            Button(action: { store.send(.signUpButtonTapped) }) {
-                Text(L10n.Button.signUp)
-                    .font(.title3)
-                    .fontWeight(.regular)
-                    .frame(width: UIScreen.main.bounds.width - 32,  height: 56)
+            VStack {
+                Text(L10n.Authorisation.CreateAccount.title)
+                    .multilineTextAlignment(.leading)
+                    .font(.title)
+                    .fontWeight(.bold)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.bottom, 8)
+                
+                Text(L10n.Authorisation.CreateAccount.subtitle)
+                    .multilineTextAlignment(.leading)
+                    .font(.subheadline)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .fixedSize(horizontal: false, vertical: true)
+                    .padding(.bottom, 22)
+                
+                InputFieldsView(store: store)
+                
+                Spacer()
+                
+                Button(action: {
+                    UIApplication.shared.endEditing()
+                    store.send(.signUpButtonTapped)
+                }) {
+                    Text(L10n.Button.signUp)
+                        .font(.title3)
+                        .fontWeight(.regular)
+                        .frame(width: UIScreen.main.bounds.width - 32,  height: 56)
+                }
+                .buttonStyle(ScaledButtonStylePrimary())
+                .disabled(!store.isSignUpButtonEnabled)
             }
-            .buttonStyle(ScaledButtonStylePrimary())
-            .disabled(!store.isSignUpButtonEnabled)
             .padding(.horizontal, 16)
-            
         }
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -55,9 +60,16 @@ struct CreateAccountView: View {
                 Button(action: { self.store.send(.backButtonTapped) }) {
                     Image(.backArrow)
                         .foregroundStyle(.secondary)
+                        .offset(x: -8)
                 }
             }
         }
+        .blur(radius: store.isVerificationScreenShowed ? 2 : 0)
+        .overlay(content: {
+            if store.isVerificationScreenShowed {
+                PhoneVerificationRequestView(store: store)
+            }
+        })
         .padding(.horizontal, 16)
         .padding(.bottom, 22)
         .onTapGesture {
@@ -161,14 +173,12 @@ struct InputFieldsView: View {
                         .accentColor(.border)
                         .padding(.horizontal, 8)
                 }
-                
             }
             .padding(12)
             .background{
                 RoundedRectangle(cornerRadius: 8)
                     .stroke(Color.border, lineWidth: 1)
             }
-            
         }
         .padding(4)
         .sheet(item:  $store.scope(state: \.phoneCodeSelectionState, action: \.phoneCodeSelectionAction) ) { store in

@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import FirebaseAuth
 
 @Reducer
 struct CreateAccountReducer: Equatable {
@@ -33,6 +34,7 @@ struct CreateAccountReducer: Equatable {
         var isSignUpButtonEnabled = false
         var focusedField: Field?
         var isPhoneValid = true
+        var isVerificationScreenShowed = false
         enum Field: String, Hashable {
             case phoneNumber, password
         }
@@ -41,13 +43,16 @@ struct CreateAccountReducer: Equatable {
     enum Action: BindableAction, Equatable {
         case binding(BindingAction<State>)
         case phoneCodeSelectionAction(PresentationAction<PhoneCodeSelectionReducer.Action>)
-        case signUpButtonTapped
-        case passwordVisibilityButtonTapped
-        case backButtonTapped
-        case phoneCodeButtonTaped
-        case phoneNumberDidEndEditing
         case getCurrentCountryPhoneCode
+        case phoneCodeButtonTaped
         case phoneCodeReceived(Country)
+        case backButtonTapped
+        case phoneNumberDidEndEditing
+        case passwordVisibilityButtonTapped
+        case signUpButtonTapped
+        case phoneCorrectTapped
+        case phoneIncorrectTapped
+        case accountCreated(phoneNumber: String, password: String)
     }
     
     var body: some ReducerOf<Self> {
@@ -62,24 +67,13 @@ struct CreateAccountReducer: Equatable {
                 return .none
             case .binding(_):
                 return .none
-            case .signUpButtonTapped:
-                return .none
-            case .passwordVisibilityButtonTapped:
-                state.isPasswordShowing.toggle()
-                return .none
-            case .backButtonTapped:
-                return .none
-            case .phoneCodeButtonTaped:
-                state.phoneCodeSelectionState = PhoneCodeSelectionReducer.State()
-                return .none
-            case .phoneNumberDidEndEditing:
-                let phoneNumber = (state.phoneCode + state.phoneNumber).dropFirst(2)
-                state.isPhoneValid = isValidPhoneNumber(String(phoneNumber))
-                return .none
             case .phoneCodeSelectionAction(.presented(.countrySelected(let country))):
                 state.phoneCode = "\(country.code.getFlag()) \(country.phoneCode)"
                 return .none
             case .phoneCodeSelectionAction(_):
+                return .none
+            case .phoneCodeButtonTaped:
+                state.phoneCodeSelectionState = PhoneCodeSelectionReducer.State()
                 return .none
             case .getCurrentCountryPhoneCode:
                 return .run { send in
@@ -89,6 +83,26 @@ struct CreateAccountReducer: Equatable {
                 }
             case .phoneCodeReceived(let country):
                 state.phoneCode = "\(country.code.getFlag()) \(country.phoneCode)"
+                return .none
+            case .backButtonTapped:
+                return .none
+            case .phoneNumberDidEndEditing:
+                let phoneNumber = (state.phoneCode + state.phoneNumber).dropFirst(2)
+                state.isPhoneValid = isValidPhoneNumber(String(phoneNumber))
+                return .none
+            case .passwordVisibilityButtonTapped:
+                state.isPasswordShowing.toggle()
+                return .none
+            case .signUpButtonTapped:
+                state.isVerificationScreenShowed = true
+                return .none
+            case .phoneCorrectTapped:
+                state.isVerificationScreenShowed = false
+                return .send(.accountCreated(phoneNumber: String(state.phoneCode.dropFirst(2) + state.phoneNumber), password: state.password))
+            case .phoneIncorrectTapped:
+                state.isVerificationScreenShowed = false
+               return .none
+            case .accountCreated:
                 return .none
             }
         }

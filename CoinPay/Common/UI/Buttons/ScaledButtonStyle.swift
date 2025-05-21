@@ -13,6 +13,7 @@ struct ScaledButtonStylePrimary: ButtonStyle {
         ScaledButton(configuration: configuration)
                 .foregroundStyle(.white)
                 .clipShape(Capsule())
+                .contentShape(Capsule())
                 .scaleEffect(configuration.isPressed ? 1.05 : 1)
                 .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
                 .sensoryFeedback(.impact, trigger: configuration.isPressed )
@@ -30,15 +31,23 @@ struct ScaledButtonStylePrimary: ButtonStyle {
 struct ScaledButtonStyleSecondary: ButtonStyle {
     
     func makeBody(configuration: Configuration) -> some View {
-            configuration.label
-                
+        ScaledButton(configuration: configuration)
                 .foregroundStyle(.contentAccent)
                 .overlay(
                     Capsule()
                         .stroke(.contentAccent, lineWidth: 1)
                 )
+                .contentShape(Capsule())
                 .scaleEffect(configuration.isPressed ? 1.05 : 1)
                 .animation(.easeOut(duration: 0.2), value: configuration.isPressed)
                 .sensoryFeedback(.impact, trigger: configuration.isPressed )
         }
+    
+    struct ScaledButton: View {
+            let configuration: ButtonStyle.Configuration
+            @Environment(\.isEnabled) private var isEnabled: Bool
+            var body: some View {
+                configuration.label/*background(isEnabled ? Color.blue : Color.contentDisabled)*/
+            }
+    }
 }

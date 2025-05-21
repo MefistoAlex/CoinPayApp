@@ -58,10 +58,15 @@ struct AuthorisationReducer {
                 return .none
             case .binding(_):
                 return .none
-            case .path(.element(id: _, action: .createAccount(.signUpButtonTapped))):
-                state.path.append(.confirmPhone(.init()))
+            case .path(.element(id: _, action: .createAccount(.accountCreated(phoneNumber: let phoneNumber, password: let password)))):
+                state.confirmPhoneState.phoneNumber = phoneNumber
+                state.confirmPhoneState.password = password 
+                state.path.append(.confirmPhone(state.confirmPhoneState))
                 return .none
             case .path(.element(id: let id, action: .createAccount(.backButtonTapped))):
+                state.path.pop(from: id)
+                return .none
+            case .path(.element(id: let id, action: .confirmPhone(.backButtonTapped))):
                 state.path.pop(from: id)
                 return .none
             case .path(_):
