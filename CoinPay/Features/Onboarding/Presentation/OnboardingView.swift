@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ComposableArchitecture
+import Loco
 
 struct OnboardingView: View {
     @Bindable var store: StoreOf<OnboardingReducer>
@@ -33,25 +34,33 @@ struct OnboardingView: View {
                             .onTapGesture {
                                 store.selectedImageIndex = index
                             }
+                            .glassEffect()
                     }
                 }
                 .padding(.bottom, 8)
                 
                 Text(store.advantages[store.selectedImageIndex].title)
                     .multilineTextAlignment(.center)
-                    .font(.system(size: 38, weight: .semibold, design: .default))
+                    .font(.system(size: 30, weight: .semibold, design: .default))
                     .fontWeight(.bold)
                     .padding()
                
                 Spacer()
                 
-                Button(action: { store.send(.nextButtonTapped) }) {
+                Button(action: {
+//
+//                    print("\(Loco.L10n.Button.next) button tapped")
+                    store.send(.nextButtonTapped)
+                }) {
                     Text(L10n.Button.next)
                         .font(.title3)
                         .fontWeight(.regular)
-                        .frame(width: geometry.size.width - 32,  height: 56)
+                        .frame(maxWidth: .infinity, maxHeight: 56)
                 }
                 .buttonStyle(ScaledButtonStylePrimary())
+                .background {
+                    Color.blue.clipShape(Capsule())
+                }
                 .padding(16)
             }
         }

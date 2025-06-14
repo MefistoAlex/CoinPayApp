@@ -8,21 +8,13 @@
 import SwiftUI
 import ComposableArchitecture
 import Foundation
-import FirebaseCore
-import FirebaseAuth
-
-class AppDelegate: NSObject, UIApplicationDelegate {
-  func application(_ application: UIApplication,
-                   didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-    FirebaseApp.configure()
-
-    return true
-  }
-}
+import Location
+import DataPersistance
 
 @main
 struct CoinPayApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
+    
+    @Dependency(\.dataBaseProvider) private var dataBaseProvider
     
     init() {
         LocationManager.shared.requestLocation()
@@ -38,5 +30,6 @@ struct CoinPayApp: App {
                 AuthorisationView(store: appStore.scope(state:\.authorisationState, action: \.authorisation))
             }
         }
+        .modelContainer(dataBaseProvider.container)
     }
 }

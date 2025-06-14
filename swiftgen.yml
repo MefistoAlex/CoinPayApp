@@ -1,7 +1,9 @@
 
  strings:
    inputs:
-     - CoinPay/Resources/en.lproj
+     - CoinPay/Packages/Loco/Sources/en.lproj
    outputs:
      - templateName: structured-swift5
-       output: CoinPay/Resources/Strings+Generated.swift
+       params:
+        publicAccess: true
+       output: CoinPay/Packages/Loco/Sources/Strings+Generated.swift

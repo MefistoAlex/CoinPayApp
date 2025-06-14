@@ -6,6 +6,31 @@
 //
 import SwiftUI
 import ComposableArchitecture
+import SwiftData
+import CountryPicker
+import NetworkService
+import DataPersistance
+// - MARK: DataBase
+
+extension Database: @retroactive DependencyKey {
+    
+    public static let liveValue = {
+        @Dependency(\.dataBaseProvider) var dataBaseProvider
+        return Database(
+            context: {
+                {
+                    let container = dataBaseProvider.container
+                    let context = ModelContext(container)
+                    return context
+                }()
+            }
+        )
+    }()
+}
+
+enum DataBaseProviderKey: DependencyKey {
+    static var liveValue: SwiftDataModelConfigurationProvider = SwiftDataModelConfigurationProvider()
+}
 
 // - MARK: NetworkService
 
@@ -26,6 +51,10 @@ enum OTPVerificationDataSourceKey: DependencyKey {
     }()
 }
 
+enum UsersDataSourceKey: DependencyKey {
+    public static let liveValue: IUsersDataSource = UsersDataSource()
+}
+
 // - MARK: Repositories
 
 enum CountriesRepositoryKey: DependencyKey {
@@ -39,6 +68,13 @@ enum OTPVerificationRepositoryKey: DependencyKey {
     static var liveValue: OTPVerificationRepository = {
         @Dependency(\.otpVerificationDataSource) var dataSource
         return OTPVerificationRepository(dataSource: dataSource)
+    }()
+}
+
+enum UsersRepositoryKey: DependencyKey {
+    public static var liveValue: IUsersRepository = {
+        @Dependency(\.usersDataSource) var usersDataSource
+        return UsersRepository(usersDataSource: usersDataSource)
     }()
 }
 
@@ -57,3 +93,11 @@ enum OTPVerificationUseCaseKey: DependencyKey {
         return OTPVerificationUseCase(otpVerificationRepository: otpVerificationRepository)
     }()
 }
+
+enum UsersUseCaseKey: DependencyKey {
+    static var liveValue = {
+        @Dependency(\.usersRepository) var usersRepository
+        return UsersUseCase(usersRepository: usersRepository)
+    }()
+}
+

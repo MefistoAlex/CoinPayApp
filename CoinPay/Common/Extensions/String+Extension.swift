@@ -8,13 +8,3 @@
 import Foundation
 import UIKit
 
-public extension String {
-    
-    func getFlag() -> String {
-        unicodeScalars
-            .map { 127_397 + $0.value }
-            .compactMap(UnicodeScalar.init)
-            .map(String.init)
-            .joined()
-    }
-}

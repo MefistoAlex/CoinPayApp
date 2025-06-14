@@ -20,9 +20,11 @@ struct ProgressBarView: View {
             Rectangle()
                 .frame(width: passedStepsWidth, height: 4)
                 .foregroundStyle(.blue)
+                .glassEffect()
             Rectangle()
                 .frame(width: leftStepsWidth, height: 4)
                 .foregroundStyle(Color.neutralGray)
         }
+        .glassEffect()
     }
 }
