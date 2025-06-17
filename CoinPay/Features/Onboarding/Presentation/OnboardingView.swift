@@ -48,9 +48,7 @@ struct OnboardingView: View {
                 Spacer()
                 
                 Button(action: {
-//
-//                    print("\(Loco.L10n.Button.next) button tapped")
-                    store.send(.nextButtonTapped)
+                   store.send(.nextButtonTapped)
                 }) {
                     Text(L10n.Button.next)
                         .font(.title3)
