@@ -14,6 +14,7 @@
 		B0A1439F2E00570800621F90 /* Loco in Frameworks */ = {isa = PBXBuildFile; productRef = B0A1439E2E00570800621F90 /* Loco */; };
 		B0A143A12E00570C00621F90 /* NetworkService in Frameworks */ = {isa = PBXBuildFile; productRef = B0A143A02E00570C00621F90 /* NetworkService */; };
 		B0A143A32E00578200621F90 /* CountryPicker in Frameworks */ = {isa = PBXBuildFile; productRef = B0A143A22E00578200621F90 /* CountryPicker */; };
+		B0E6ADA22E01E54B000FBE1B /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = B0E6ADA12E01E54B000FBE1B /* IQKeyboardManagerSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -77,6 +78,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B0E6ADA22E01E54B000FBE1B /* IQKeyboardManagerSwift in Frameworks */,
 				B0A1439B2E00570000621F90 /* DataPersistance in Frameworks */,
 				B0A143A32E00578200621F90 /* CountryPicker in Frameworks */,
 				B0A1439F2E00570800621F90 /* Loco in Frameworks */,
@@ -161,6 +163,7 @@
 				B0A1439E2E00570800621F90 /* Loco */,
 				B0A143A02E00570C00621F90 /* NetworkService */,
 				B0A143A22E00578200621F90 /* CountryPicker */,
+				B0E6ADA12E01E54B000FBE1B /* IQKeyboardManagerSwift */,
 			);
 			productName = CoinPay;
 			productReference = B0468DB02D93FE930072B5D6 /* CoinPay.app */;
@@ -247,6 +250,7 @@
 			packageReferences = (
 				B005E9202D9719FC00FD9410 /* XCRemoteSwiftPackageReference "SwiftGenPlugin" */,
 				B082A1E12DFCD98800A364C2 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+				B0E6ADA02E01E54B000FBE1B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B0468DB12D93FE930072B5D6 /* Products */;
@@ -302,7 +306,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nAPI_KEY=\"sQ-JAEmqJ6FmaZeNtmwrK-VJTEaeRTDL\"\nLOC_FILE=\"./CoinPay/Packages/Loco/Sources/en.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/en.strings?key=$API_KEY\"\nLOC_FILE=\"./CoinPay/Packages/Loco/Sources/uk.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/uk.strings?key=$API_KEY\"\n\n";
+			shellScript = "# Type a script or drag a script file from your workspace to insert its path.\n\nAPI_KEY=\"sQ-JAEmqJ6FmaZeNtmwrK-VJTEaeRTDL\"\nLOC_FILE=\"./CoinPay/Packages/Loco/Sources/Resources/en.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/en.strings?key=$API_KEY\"\nLOC_FILE=\"./CoinPay/Packages/Loco/Sources/Resources/uk.lproj/Localizable.strings\"\ncurl -o $LOC_FILE \"https://localise.biz/api/export/locale/uk.strings?key=$API_KEY\"\n\n";
 		};
 		B0468E8E2D944C6E0072B5D6 /* SwiftGen */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -697,6 +701,14 @@
 				kind = branch;
 			};
 		};
+		B0E6ADA02E01E54B000FBE1B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/hackiftekhar/IQKeyboardManager";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.0.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -728,6 +740,11 @@
 		B0A143A22E00578200621F90 /* CountryPicker */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CountryPicker;
+		};
+		B0E6ADA12E01E54B000FBE1B /* IQKeyboardManagerSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B0E6ADA02E01E54B000FBE1B /* XCRemoteSwiftPackageReference "IQKeyboardManager" */;
+			productName = IQKeyboardManagerSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

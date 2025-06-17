@@ -87,6 +87,7 @@ struct ConfirmPhoneView: View {
                 }
                 .buttonStyle(ScaledButtonStylePrimary())
                 .disabled(!store.isVerifyNumberButtonEnabled)
+                .padding(.bottom, 16)
             }
             .padding(.horizontal, 16)
         }

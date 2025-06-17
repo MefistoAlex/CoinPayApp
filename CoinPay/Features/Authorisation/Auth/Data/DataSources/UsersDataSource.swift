@@ -10,6 +10,7 @@ import Combine
 import ComposableArchitecture
 import Foundation
 import DataPersistance
+import Loco
 
 public enum UserError: Error {
     case add
@@ -18,9 +19,9 @@ public enum UserError: Error {
     var localizedDescription: String {
         switch self {
         case .add:
-            return "User already exists."
+            return L10n.Error.userExist
         case .delete:
-            return "Failed to delete user."
+            return L10n.Error.userDeletionFailed
         }
     }
 }
@@ -31,6 +32,7 @@ public protocol IUsersDataSource {
     func addUser(phoneNumber: String, password: String) -> AnyPublisher<UserModel, Error>
     func deleteUser(_ user: UserModel) -> AnyPublisher<Void, Error>
     func isUserExist(phoneNumber: String) -> AnyPublisher<Bool, Error>
+    func clearAllUsers() -> AnyPublisher<Void, Error>
 }
 
 struct UsersDataSource: IUsersDataSource {
@@ -126,5 +128,20 @@ struct UsersDataSource: IUsersDataSource {
             return Fail(error: error)
                 .eraseToAnyPublisher()
         }
+    }
+    
+    func clearAllUsers() -> AnyPublisher<Void, any Error> {
+        do {
+            let userContext: ModelContext = try context()
+            try userContext.delete(model: UserModel.self)
+            try userContext.save()
+            return Just(())
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        } catch {
+            return Fail(error: error)
+                .eraseToAnyPublisher()
+        }
+        
     }
 }

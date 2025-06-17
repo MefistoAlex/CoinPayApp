@@ -124,15 +124,15 @@ struct InputFieldsView: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.border, lineWidth: 1)
                     }
-                    .toolbar {
-                        ToolbarItemGroup(placement: .keyboard) {
-                            Spacer()
-                            
-                            Button(L10n.Button.done) {
-                                UIApplication.shared.endEditing()
-                            }
-                        }
-                    }
+//                    .toolbar {
+//                        ToolbarItemGroup(placement: .keyboard) {
+//                            Spacer()
+//                            
+//                            Button(L10n.Button.done) {
+//                                UIApplication.shared.endEditing()
+//                            }
+//                        }
+//                    }
                 }
                 
                 if !store.isPhoneValid {

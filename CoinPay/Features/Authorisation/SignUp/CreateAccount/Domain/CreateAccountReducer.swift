@@ -110,7 +110,7 @@ struct CreateAccountReducer: Equatable {
             case .accountCreated:
                 return .none
             case .checkIsUserExist:
-                let phoneNumber = state.phoneNumber
+                let phoneNumber = String(state.phoneCode.dropFirst(2) + state.phoneNumber)
                 return .run { send in
                     do {
                         for try await isUserExist in usersUseCase.isUserExists(phoneNumber: phoneNumber).values {

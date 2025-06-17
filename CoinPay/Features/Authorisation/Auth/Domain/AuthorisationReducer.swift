@@ -70,6 +70,7 @@ struct AuthorisationReducer {
                 state.path.pop(from: id)
                 return .none
             case .path(.element(id: let id, action: .confirmPhone(.userSaved(let user)))):
+                print("User saved: \(user.phoneNumber), \(user.password)")
                 state.path.removeAll()
 //                state.path
 //                state.path.pop(from: id)

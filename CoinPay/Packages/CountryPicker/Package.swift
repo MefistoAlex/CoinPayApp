@@ -15,15 +15,19 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(path: "../Location")
+        .package(path: "../Location"),
+        .package(path: "../Loco"),
     ],
     targets: [
        .target(
             name: "CountryPicker",
             dependencies: [
-                .product(name: "Location", package: "Location")
+                .product(name: "Location", package: "Location"),
+                .product(name: "Loco", package: "Loco")
+            ],
+            resources: [
+                .process("CountryCodes.json")
             ]
-        ),
-
+        )
     ]
 )

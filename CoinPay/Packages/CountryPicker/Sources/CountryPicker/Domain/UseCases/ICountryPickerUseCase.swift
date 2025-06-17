@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Loco
 
 private enum Constants {
     static var currentLocationCode: String { "UA" }
@@ -49,7 +50,7 @@ public final class CountriesPickerUseCase: ICountriesPickerUseCase, Sendable {
             
             if let countryCode, let country = getCountryBy(code: countryCode)  {
                 countries = allCountries.filter { $0.code != countryCode }
-                firstSection.append(CountrySection(title: "L10n.Authorisation.CreateAccount.yourLocation",
+                firstSection.append(CountrySection(title: L10n.Authorisation.CreateAccount.yourLocation,
                                                    countries: [country]))
             } else {
                 countries = allCountries

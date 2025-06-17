@@ -38,38 +38,38 @@ struct PhoneCodeSelectionView: View {
                 colorScheme == .light ? Color.listBackground : Color.clear
             }
             
-//            List {
-//                ForEach(store.countries, id: \.self) { section in
-//                    Section(header: Text(section.title)) {
-//                        ForEach(section.countries, id: \.self) { country in
-//                            Button(action: {
-//                                store.send(.countrySelected(country))
-//                                dismiss()
-//                            }) {
-//                                HStack {
-//                                    Text(country.code.getFlag())
-//                                    Text(country.name)
-//                                    Spacer()
-//                                    Text(country.phoneCode)
-//                                }
-//                                .foregroundColor(.gray)
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//            .onAppear {
-//                store.send(.getAllCountries)
-//            }
-//            .toolbar {
-//                ToolbarItemGroup(placement: .keyboard) {
-//                    Spacer()
-//                    
-//                    Button(L10n.Button.done) {
-//                        UIApplication.shared.endEditing()
-//                    }
-//                }
-//            }
+            List {
+                ForEach(store.countries, id: \.self) { section in
+                    Section(header: Text(section.title)) {
+                        ForEach(section.countries, id: \.self) { country in
+                            Button(action: {
+                                store.send(.countrySelected(country))
+                                dismiss()
+                            }) {
+                                HStack {
+                                    Text(country.code.getFlag())
+                                    Text(country.name)
+                                    Spacer()
+                                    Text(country.phoneCode)
+                                }
+                                .foregroundColor(.gray)
+                            }
+                        }
+                    }
+                }
+            }
+            .onAppear {
+                store.send(.getAllCountries)
+            }
+            .toolbar {
+                ToolbarItemGroup(placement: .keyboard) {
+                    Spacer()
+                    
+                    Button(L10n.Button.done) {
+                        UIApplication.shared.endEditing()
+                    }
+                }
+            }
         }
     }
 }

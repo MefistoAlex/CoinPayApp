@@ -10,14 +10,29 @@ import ComposableArchitecture
 import Foundation
 import Location
 import DataPersistance
+import IQKeyboardManagerSwift
+import Combine
 
 @main
 struct CoinPayApp: App {
     
-    @Dependency(\.dataBaseProvider) private var dataBaseProvider
+    var cancellables = Set<AnyCancellable>()
     
+    @Dependency(\.dataBaseProvider) private var dataBaseProvider
+    @Dependency(\.usersDataSource) private var usersDataSource
     init() {
+//        IQKeyboardManager.shared.isEnabled = true
         LocationManager.shared.requestLocation()
+        usersDataSource.clearAllUsers()
+            .sink { completion in
+                switch completion {
+                case .finished:
+                    print("All users deleted successfully.")
+                case .failure(let error):
+                    print("Failed to delete all users: \(error.localizedDescription)")
+                }
+            } receiveValue: { _ in }
+            .store(in: &cancellables)
     }
     
     var appStore = Store(initialState: .init(), reducer: { AppReducer() })

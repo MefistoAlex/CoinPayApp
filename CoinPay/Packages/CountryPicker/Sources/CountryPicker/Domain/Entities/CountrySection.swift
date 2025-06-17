@@ -7,10 +7,10 @@
 import Foundation
 
 public final class CountrySection: Hashable {
-    var id = UUID()
+    public var id = UUID()
     
-    var title: String
-    var countries: [Country]
+    public var title: String
+    public var countries: [Country]
     
     init(title: String, countries: [Country]) {
         self.title = title
