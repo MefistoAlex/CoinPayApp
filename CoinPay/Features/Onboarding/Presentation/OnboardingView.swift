@@ -29,7 +29,7 @@ struct OnboardingView: View {
                 HStack {
                     ForEach(0..<store.advantages.count, id: \.self) { index in
                         Capsule()
-                            .fill($store.selectedImageIndex.wrappedValue == index ? Color.blue : .unactive)
+                            .fill($store.selectedImageIndex.wrappedValue == index ? Color.ultramarine : .unactive)
                             .frame(width: $store.selectedImageIndex.wrappedValue == index ? 16 : 37, height: 8)
                             .onTapGesture {
                                 store.selectedImageIndex = index
@@ -39,12 +39,18 @@ struct OnboardingView: View {
                 }
                 .padding(.bottom, 8)
                 
+                Spacer()
+                
                 Text(store.advantages[store.selectedImageIndex].title)
                     .multilineTextAlignment(.center)
                     .font(.system(size: 30, weight: .semibold, design: .default))
                     .fontWeight(.bold)
+                    
+                    .frame(maxWidth: .infinity)
                     .padding()
-               
+                    .glassEffect(.regular, in: .rect(cornerRadius: 16.0))
+                    .padding(.horizontal, 16)
+              
                 Spacer()
                 
                 Button(action: {
@@ -60,6 +66,9 @@ struct OnboardingView: View {
                     Color.blue.clipShape(Capsule())
                 }
                 .padding(16)
+            }
+            .background {
+                DarkGradient()
             }
         }
     }

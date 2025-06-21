@@ -94,9 +94,11 @@ struct OtpModifier: ViewModifier {
             .onReceive(Just(pin)) { _ in limitText(textLimit) }
             .frame(width: 40, height: 48)
             .font(.system(size: 14))
-            .background(
-                RoundedRectangle(cornerRadius: 4)
-                    .stroke(Color.blue100, lineWidth: 1)
-            )
+            .padding(2)
+            .glassEffect(in: .circle)
+//            .background(
+//                RoundedRectangle(cornerRadius: 4)
+//                    .stroke(Color.blue100, lineWidth: 1)
+//            )
     }
 }

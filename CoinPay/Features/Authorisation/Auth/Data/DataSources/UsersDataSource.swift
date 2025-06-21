@@ -30,12 +30,14 @@ public protocol IUsersDataSource {
     func fetchAll() -> AnyPublisher<[UserModel], Error>
     func fetchUser(by phoneNumber: String) -> AnyPublisher<[UserModel], Error>
     func addUser(phoneNumber: String, password: String) -> AnyPublisher<UserModel, Error>
+    func updateUser(_ user: UserModel) -> AnyPublisher<UserModel, Error>
     func deleteUser(_ user: UserModel) -> AnyPublisher<Void, Error>
     func isUserExist(phoneNumber: String) -> AnyPublisher<Bool, Error>
     func clearAllUsers() -> AnyPublisher<Void, Error>
 }
 
 struct UsersDataSource: IUsersDataSource {
+    
     @Dependency(\.databaseService.context) private  var context
     
     func fetchAll() -> AnyPublisher<[UserModel], Error> {
@@ -84,6 +86,21 @@ struct UsersDataSource: IUsersDataSource {
             let users: [UserModel] = try userContext.fetch(fetch)
             
             guard users.isEmpty else { throw UserError.add }
+            userContext.insert(user)
+            
+            try userContext.save()
+            return Just(user)
+                .setFailureType(to: Error.self)
+                .eraseToAnyPublisher()
+        } catch {
+            return Fail(error: error)
+                .eraseToAnyPublisher()
+        }
+    }
+    
+    func updateUser(_ user: UserModel) -> AnyPublisher<UserModel, any Error> {
+        do {
+            let userContext = try context()
             userContext.insert(user)
             
             try userContext.save()

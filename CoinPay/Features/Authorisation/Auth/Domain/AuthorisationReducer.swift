@@ -15,6 +15,7 @@ struct AuthorisationReducer {
         static let policyURL = URL(string: "https://www.youtube.com")!
     }
     
+    
     @Reducer
     enum Path: Equatable {
         case createAccount(CreateAccountReducer)
@@ -33,10 +34,12 @@ struct AuthorisationReducer {
     enum Action: BindableAction {
         case path(StackActionOf<Path>)
         case binding(BindingAction<State>)
+        case backButtonTapped
         case signUpButtonTapped
         case logInButtonTapped
         case termsButtonTapped
         case policyButtonTapped
+        case authorisationFinished(User)
     }
     
     var body: some ReducerOf<Self> {
@@ -44,6 +47,9 @@ struct AuthorisationReducer {
         
         Reduce { state, action in
             switch action {
+            case .backButtonTapped:
+                state.path
+            return .none
             
             case .signUpButtonTapped:
                 state.path.append(.createAccount(.init()))
@@ -70,12 +76,10 @@ struct AuthorisationReducer {
                 state.path.pop(from: id)
                 return .none
             case .path(.element(id: let id, action: .confirmPhone(.userSaved(let user)))):
-                print("User saved: \(user.phoneNumber), \(user.password)")
-                state.path.removeAll()
-//                state.path
-//                state.path.pop(from: id)
-                return .none
+                return .send(.authorisationFinished(user))
             case .path(_):
+                return .none
+            case .authorisationFinished(_):
                 return .none
             }
         }

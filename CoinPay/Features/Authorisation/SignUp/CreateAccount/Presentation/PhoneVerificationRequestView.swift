@@ -67,10 +67,7 @@ struct PhoneVerificationRequestView: View {
             .padding(.bottom, 60)
             
         }
-        .background{
-            Color.neutralGray
-                .ignoresSafeArea()
-        }
+        .glassEffect(.regular.tint(.clear), in: .rect(cornerRadius: 24.0))
         .clipShape(RoundedRectangle(cornerRadius: 24.0))
         
         .shadow(radius: 3)

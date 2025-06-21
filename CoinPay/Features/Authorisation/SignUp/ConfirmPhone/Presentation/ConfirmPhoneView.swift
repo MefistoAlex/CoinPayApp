@@ -15,9 +15,6 @@ struct ConfirmPhoneView: View {
     
     var body: some View {
         VStack(alignment: .center) {
-            ProgressBarView(step: ConfirmPhoneReducer.Constants.currentStep,
-                            totalSteps: ConfirmPhoneReducer.Constants.stepsCount)
-            
             VStack {
                 Text(L10n.Authorisation.ConfirmPhone.title)
                     .multilineTextAlignment(.leading)
@@ -91,6 +88,9 @@ struct ConfirmPhoneView: View {
             }
             .padding(.horizontal, 16)
         }
+        .background(content: {
+            DarkGradient()
+        })
         .onReceive(timer, perform: { _ in
             store.send(.countDownTimerTicked)
         })

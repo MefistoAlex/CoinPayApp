@@ -12,16 +12,13 @@ import Loco
 struct CreateAccountView: View {
     @Environment(\.viewController) private var viewControllerHolder: UIViewController?
     @Bindable private var store: StoreOf<CreateAccountReducer>
-    @FocusState private var focusedField: CreateAccountReducer.State.Field?
+//    @FocusState private var focusedField: CreateAccountReducer.State.Field?
     init(store: StoreOf<CreateAccountReducer>) {
         self.store = store
     }
     
     var body: some View {
-        VStack(alignment: .center) {
-            ProgressBarView(step: CreateAccountReducer.Constants.currentStep,
-                            totalSteps: CreateAccountReducer.Constants.stepsCount)
-            
+//        VStack(alignment: .center) {
             VStack {
                 Text(L10n.Authorisation.CreateAccount.title)
                     .multilineTextAlignment(.leading)
@@ -50,11 +47,17 @@ struct CreateAccountView: View {
                         .fontWeight(.regular)
                         .frame(width: UIScreen.main.bounds.width - 32,  height: 56)
                 }
+//                .padding(.horizontal, 16)
                 .buttonStyle(ScaledButtonStylePrimary())
                 .disabled(!store.isSignUpButtonEnabled)
             }
             .padding(.horizontal, 16)
-        }
+//        }
+//        .padding(.horizontal, 16)
+        .background(content: {
+            DarkGradient()
+                .ignoresSafeArea()
+        })
         .alert($store.alert)
         .navigationBarBackButtonHidden()
         .toolbar {
@@ -62,7 +65,6 @@ struct CreateAccountView: View {
                 Button(action: { self.store.send(.backButtonTapped) }) {
                     Image(.backArrow)
                         .foregroundStyle(.secondary)
-//                        .offset(x: -8)
                 }
             }
         }
@@ -72,8 +74,6 @@ struct CreateAccountView: View {
                 PhoneVerificationRequestView(store: store)
             }
         })
-        .padding(.horizontal, 16)
-        .padding(.bottom, 22)
         .onTapGesture {
             UIApplication.shared.endEditing()
         }
@@ -94,10 +94,9 @@ struct InputFieldsView: View {
     }
     
     var body: some View {
-        VStack() {
+        VStack(alignment: .leading) {
             Text(L10n.Authorisation.CreateAccount.phone)
                 .padding(.bottom, 8)
-                .frame(maxWidth: .infinity, alignment: .leading)
             VStack {
                 HStack(alignment: .top) {
                     Button {
@@ -108,10 +107,7 @@ struct InputFieldsView: View {
                             .cornerRadius(8)
                             .foregroundStyle(.primaryText)
                     }
-                    .background{
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.border, lineWidth: 1)
-                    }
+                    .glassEffect(.regular.interactive())
                     
                     TextField(L10n.Authorisation.CreateAccount.mobileNumber, text: $store.phoneNumber, onEditingChanged: { endEdit in
                         if !endEdit {
@@ -120,26 +116,13 @@ struct InputFieldsView: View {
                     })
                     .keyboardType(.numberPad)
                     .padding(12)
-                    .background{
-                        RoundedRectangle(cornerRadius: 8)
-                            .stroke(Color.border, lineWidth: 1)
-                    }
-//                    .toolbar {
-//                        ToolbarItemGroup(placement: .keyboard) {
-//                            Spacer()
-//                            
-//                            Button(L10n.Button.done) {
-//                                UIApplication.shared.endEditing()
-//                            }
-//                        }
-//                    }
+                    .glassEffect()
                 }
                 
                 if !store.isPhoneValid {
                     Text(L10n.Authorisation.CreateAccount.wrongPhoneNumber)
                         .foregroundStyle(Color.red)
                         .padding(.leading, 8)
-                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
             .animation(.easeInOut, value: store.isPhoneValid)
@@ -147,7 +130,6 @@ struct InputFieldsView: View {
             
             Text(L10n.Authorisation.CreateAccount.password)
                 .padding(.bottom, 8)
-                .frame(maxWidth: .infinity, alignment: .leading)
             
             HStack {
                 Image(store.isPasswordShowing ? .lockOpen: .lock)
@@ -177,10 +159,7 @@ struct InputFieldsView: View {
                 }
             }
             .padding(12)
-            .background{
-                RoundedRectangle(cornerRadius: 8)
-                    .stroke(Color.border, lineWidth: 1)
-            }
+            .glassEffect()
         }
         .padding(4)
         .sheet(item:  $store.scope(state: \.phoneCodeSelectionState, action: \.phoneCodeSelectionAction) ) { store in

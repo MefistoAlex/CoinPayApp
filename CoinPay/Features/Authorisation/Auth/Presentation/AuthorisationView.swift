@@ -82,6 +82,9 @@ struct AuthorisationView: View {
                 .font(.caption)
                 .padding(.horizontal, 16)
             }
+            .background {
+                DarkGradient()
+            }
             
             .sheet(item: $store.presentedURL) { url in
                 WebView(url: url)
@@ -94,9 +97,26 @@ struct AuthorisationView: View {
         } destination: { store in
             switch store.case {
             case .createAccount(let store):
-                CreateAccountView(store: store)
+               NavBarContainer {
+                    CreateAccountView(store: store)
+                        .toolbar(.hidden, for: .navigationBar)
+                        .customNavBarTotalSteps(CreateAccountReducer.Constants.stepsCount)
+                        .customNavBarCurrentStep(CreateAccountReducer.Constants.currentStep)
+                } backButtonAction: {
+                    store.send(.backButtonTapped)
+                }
+
+               
             case .confirmPhone(let store):
-                ConfirmPhoneView(store: store)
+                NavBarContainer {
+                    ConfirmPhoneView(store: store)
+                        .toolbar(.hidden, for: .navigationBar)
+                        .customNavBarTotalSteps(ConfirmPhoneReducer.Constants.stepsCount)
+                        .customNavBarCurrentStep(ConfirmPhoneReducer.Constants.currentStep)
+                } backButtonAction: {
+                    store.send(.backButtonTapped)
+                }
+               
             }
         }
     }

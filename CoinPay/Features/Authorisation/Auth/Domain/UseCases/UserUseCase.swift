@@ -14,6 +14,7 @@ public protocol IUsersUseCase {
     func fetchAll() -> AnyPublisher<[User], Error>
     func fetchUser(by phoneNumber: String) -> AnyPublisher<User?, Error>
     func addUser(phoneNumber: String, password: String) -> AnyPublisher<User, Error>
+    func updateUser(_ user: User) -> AnyPublisher<User, Error>
     func deleteUser(_ user: User) -> AnyPublisher<Void, Error>
     func isUserExists(phoneNumber: String) -> AnyPublisher<Bool, Error>
 }
@@ -40,6 +41,13 @@ public final class UsersUseCase: IUsersUseCase {
     
     public func addUser(phoneNumber: String, password: String) -> AnyPublisher<User, Error> {
         return usersRepository.addUser(phoneNumber: phoneNumber, password: password)
+            .map { $0.toDomain() }
+            .eraseToAnyPublisher()
+    }
+    
+    public func updateUser(_ user: User) -> AnyPublisher<User, any Error> {
+        let userModel = user.toModel()
+        return usersRepository.updateUser(userModel)
             .map { $0.toDomain() }
             .eraseToAnyPublisher()
     }

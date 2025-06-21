@@ -43,6 +43,8 @@ struct CoinPayApp: App {
                 OnboardingView(store: appStore.scope(state:\.onboardingState, action: \.onboarding))
             case .registration:
                 AuthorisationView(store: appStore.scope(state:\.authorisationState, action: \.authorisation))
+            case .accountSettings:
+                AccountSettingsView(store: appStore.scope(state:\.accountSettingsState, action: \.accountSettings))
             }
         }
         .modelContainer(dataBaseProvider.container)

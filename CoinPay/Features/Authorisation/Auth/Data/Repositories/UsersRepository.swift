@@ -13,6 +13,7 @@ public protocol IUsersRepository {
     func fetchAll() -> AnyPublisher<[UserModel], Error>
     func fetchUser(by phoneNumber: String) -> AnyPublisher<[UserModel], Error>
     func addUser(phoneNumber: String, password: String) -> AnyPublisher<UserModel, Error>
+    func updateUser(_ user: UserModel) -> AnyPublisher<UserModel, Error>
     func deleteUser(_ user: UserModel) -> AnyPublisher<Void, Error>
 }
 
@@ -34,6 +35,10 @@ public final class UsersRepository: IUsersRepository {
     
     public func addUser(phoneNumber: String, password: String) -> AnyPublisher<UserModel, Error> {
         return usersDataSource.addUser(phoneNumber: phoneNumber, password: password)
+    }
+    
+    public func updateUser(_ user: UserModel) -> AnyPublisher<UserModel, any Error> {
+        return usersDataSource.updateUser(user)
     }
     
     public func deleteUser(_ user: UserModel) -> AnyPublisher<Void, Error> {
